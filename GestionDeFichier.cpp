@@ -1,26 +1,75 @@
 #include <fstream>
 #include <stdexcept>
+#include <string>
+#include <iostream>
+#include <vector>
 #include "GestionDeFichier.h"
 
 using namespace std;
 
-string GestionDeFichier::lireFichier(const string& nomFichier) {
+int GestionDeFichier::lireFichier(const string& nomFichier) {
     string premiereLigne;
     string ligne;
+    string largeurS;
+    string longueurS;
+    int largeurI;
+    int longueurI;
+    int celulle;
+
     ifstream lireMessage(nomFichier);
     if (!lireMessage.is_open()) {
         throw runtime_error("Impossible d'ouvrir le fichier source.");
     }
 
     getline(lireMessage, premiereLigne);
-    for (int i(0); i < premiereLigne.size(); )
+    int j(0);
 
+    //On récupère les paramètres du tableau
+    while (premiereLigne[j] != ' '){
+        largeurS += premiereLigne[j];
+        j++;
+    }
+    j++;
+    while (premiereLigne[j] != ' '){
+        longueurS += premiereLigne[j];
+        j++;
+    }
+    for (j; j < premiereLigne.size(); j++){
+        if (premiereLigne[j] != ' '){
+            throw runtime_error("Declaration du tableau invalide.");
+        }
+    }
+    largeurI = stoi(largeurS); // Convertit la chaîne en entier
+    longueurI = stoi(longueurS);
+
+    vector<vector <int>> tableau;
+    int x(0);
+
+    //Remplissage du tableau
     while(getline(lireMessage, ligne)){
-        message.append(ligne + "\n");
+        tableau.push_back(vector<int>()); // Ajoute une nouvelle ligne vide
+        for (int i(0); i<ligne.size(); i++){
+            celulle = stoi(ligne[i]);
+            tableau[x].push_back(ligne[i]);
+        }
+        x++;
     }
     lireMessage.ignore();
-    return contenu;
+
+    if (tableau.size() != largeurI){
+        throw runtime_error("Nombre de lignes de la matrice non conforme au parametre donnees");
+    }
+
+    for (int i = 0; i < tableau.size(); i++){
+        if (tableau[i].size() != longueurI){
+            throw runtime_error("Nombre de colonnes de la matrice non conforme au parametre donnees");
+        }   
+    }
+    
+    
+    return tableau;
 }
+
 
 void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& contenu) {
     ofstream fichier(nomFichier);

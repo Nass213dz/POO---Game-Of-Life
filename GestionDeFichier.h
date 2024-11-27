@@ -5,7 +5,7 @@
 
 class GestionDeFichier{
     public:
-        std::string lireFichier(const std::string& nomFichier);
+        int lireFichier(const std::string& nomFichier);
         void ecrireFichier(const std::string& nomFichier, const std::string& contenu);
 };
 
