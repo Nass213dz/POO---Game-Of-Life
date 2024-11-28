@@ -1,13 +1,14 @@
 #include "Grille.h"
+#include "GestionDeFichier.h"
 
 using namespace std;
 
-Grille::Grille(int taille) : m_taille(taille), m_tailleL(taille_l), cellules(taille, vector<Cellule*>(taille, nullptr)){} //Constructeur parametré
+Grille::Grille(int taille, int tailleL) : m_longueur(taille), cellules(taille, vector<Cellule*>(taille, nullptr)){} //Constructeur parametré
 
 Grille::~Grille(){
     //Destructeur qui supprime chaque cellule du vecteur
-    for(int i=0;i<m_taille; i++){
-        for(int j=0; j<m_taille; j++){
+    for(int i=0;i<m_longueur; i++){
+        for(int j=0; j<m_longueur; j++){
             delete cellules[i][j];
         }
     }
@@ -15,7 +16,7 @@ Grille::~Grille(){
 
 int Grille::getSize() const {
     //Getter de la taille
-    return m_taille;
+    return m_longueur;
 }
 
 bool Grille::getVieCellule(int i, int j) const {
@@ -35,7 +36,7 @@ int Grille::getNBRVoisinsVivants(int i, int j) {
             int voisin_i = i + k;                    // coordonnée en i d'un voisin
             int voisin_j = j + l;                    // coordonnée en j d'un voisin
 
-            if (voisin_i >= 0 && voisin_i < m_taille && voisin_j >= 0 && voisin_j < m_taille) { //Vérifie pour chaque voisin si il est bien dans la grille
+            if (voisin_i >= 0 && voisin_i < m_longueur && voisin_j >= 0 && voisin_j < m_longueur) { //Vérifie pour chaque voisin si il est bien dans la grille
                 if (getVieCellule(voisin_i, voisin_j)) { //si la cellule est vivante
                     ++compteur_voisin_vivant; // incrémenter le compteur
                 }
@@ -47,18 +48,20 @@ int Grille::getNBRVoisinsVivants(int i, int j) {
 }
 
 
-void Grille::affichageGrille(){
-    //permet d'afficher la grille dans la console
-    for(int i=0;i<m_taille; i++){
-        for(int j=0; j<m_taille; j++){
-            cout << (cellules[i][j]->getEtat() ? 1 : 0) << " " << endl; // affiche l'état (0 ou 1) de chaque cellules
+void Grille::affichageGrille() {
+    cout << "Etat de la grille :" << endl;
+    for (int i = 0; i < m_longueur; i++) { // Parcours des lignes
+        for (int j = 0; j < m_largeur; j++) { // Parcours des colonnes
+            cout << (cellules[i][j]->getEtat() ? "1" : "0") << " "; // Affiche "1" pour vivant et "0" pour mort
         }
+        cout << endl; // Saut de ligne après chaque ligne
     }
 }
 
+
 void Grille::initialisationGrille(vector<vector<int>>& etats_cellules){
-    for(int i=0;i<m_taille;i++){
-        for(int j=0; j<m_taille; j++){
+    for(int i=0;i<m_longueur;i++){
+        for(int j=0; j<m_largeur; j++){
             if (etats_cellules[i][j]==1){ //si la cellule initialisée dans le fichier d'entrée est de 1
                 cellules[i][j] = new CelluleVivante(); //créé un nouvel objet de cellule vivante
             }

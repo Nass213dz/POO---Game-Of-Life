@@ -5,11 +5,11 @@ using namespace std;
 
 class Grille {
     private:
-    int m_taille;
-    int m_tailleL;
+    int m_longueur;
+    int m_largeur;
     vector<vector<Cellule*>> cellules;
     public:
-    Grille(int taille);
+    Grille(int taille, int tailleL);
     ~Grille();
     int getSize() const;
     bool getVieCellule(int i, int j) const;
