@@ -17,6 +17,7 @@ class CelluleVivante : public Cellule {
     protected:
     bool m_etat_vivant;
     public:
+    CelluleVivante();
     void changerEtat(bool m_etat) override;
     bool getEtat() override;
 };
@@ -25,6 +26,7 @@ class CelluleMorte : public Cellule {
     protected:
     bool m_etat_mort;
     public:
+    CelluleMorte();
     void changerEtat(bool m_etat) override;
     bool getEtat() override;
 };

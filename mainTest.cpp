@@ -7,10 +7,12 @@
 using namespace std;
 
 int main(){
+    vector<vector<int>> grille;
     string nomFichier;
     cout << "Entrez le nom du fichier source : ";
     cin >> nomFichier;
-    GestionDeFichier::lireFichier(nomFichier);
+    grille = GestionDeFichier::lireFichier(nomFichier);
     Grille grid(5);
+    grid.initialisationGrille(grille);
     grid.affichageGrille();
 }

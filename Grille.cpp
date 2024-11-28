@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Grille::Grille(int taille) : m_taille(taille), cellules(taille, vector<Cellule*>(taille, nullptr)){} //Constructeur parametré
+Grille::Grille(int taille) : m_taille(taille), m_tailleL(taille_l), cellules(taille, vector<Cellule*>(taille, nullptr)){} //Constructeur parametré
 
 Grille::~Grille(){
     //Destructeur qui supprime chaque cellule du vecteur
@@ -51,7 +51,7 @@ void Grille::affichageGrille(){
     //permet d'afficher la grille dans la console
     for(int i=0;i<m_taille; i++){
         for(int j=0; j<m_taille; j++){
-            cout << (cellules[i][j]->getEtat() ? true : false) << " " << endl; // affiche l'état (0 ou 1) de chaque cellules
+            cout << (cellules[i][j]->getEtat() ? 1 : 0) << " " << endl; // affiche l'état (0 ou 1) de chaque cellules
         }
     }
 }

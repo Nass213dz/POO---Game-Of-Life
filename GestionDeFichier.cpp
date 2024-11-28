@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "Grille.h"
 #include "GestionDeFichier.h"
 
 using namespace std;

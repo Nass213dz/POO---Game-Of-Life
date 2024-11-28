@@ -6,6 +6,7 @@ using namespace std;
 class Grille {
     private:
     int m_taille;
+    int m_tailleL;
     vector<vector<Cellule*>> cellules;
     public:
     Grille(int taille);
