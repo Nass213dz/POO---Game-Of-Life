@@ -2,17 +2,17 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <filesystem>
 #include "GestionDeFichier.h"
 
 using namespace std;
-namespace fs = filesystem;
+using namespace filesystem;
 
 vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
     string premiereLigne;
     string ligne;
     string largeurS;
     string longueurS;
-    string itérati
     int largeurI;
     int longueurI;
     int cellule;
@@ -72,7 +72,10 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
 
 
 void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& contenu) {
-    
+    string iteration_folder;
+    if (!filesystem::exist(iteration_folder)){
+        filesystem::create_directory(iteration_folder);
+    }
     ofstream fichier(nomFichier);
     if (!fichier.is_open()) {
         throw runtime_error("Impossible d'ouvrir le fichier de destination.");

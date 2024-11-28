@@ -24,6 +24,7 @@ int Grille::getLongueur() const {
     return m_longueur;
 }
 
+
 bool Grille::getVieCellule(int i, int j) const {
     // Getter de l'état d'une cellule qui prend la position en paramètre
     return cellules[i][j]->getEtat() ? true : false; // Si getEtat() retourne true, la méthode getVieCellule retourne true, sinon false
@@ -70,6 +71,42 @@ void Grille::initialisationGrille(vector<vector<int>>& etats_cellules) {
             } else if (etats_cellules[i][j] == 0) { // Pareil mais pour une cellule morte
                 cellules[i][j] = new CelluleMorte();
             }
+        }
+    }
+}
+
+void Grille::iteration(){
+    vector<vector<Cellule*>> nouvelles_cellules(m_longueur, vector<Cellule*>(m_largeur, nullptr));
+    for (int i = 0; i < m_longueur; i++){
+        for (int j = 0; j < m_longueur; j++){
+            int voisins_vivants = getNBRVoisinsVivants(i, j);
+
+            if (getVieCellule(i,j)){
+                if (voisins_vivants == 2 || voisins_vivants == 3){
+                    nouvelles_cellules[i][j] = new CelluleVivante();
+                }
+                else {
+                    nouvelles_cellules[i][j] = new CelluleMorte();
+                }
+            }
+            else {
+                if (voisins_vivants == 3){
+                    nouvelles_cellules[i][j] = new CelluleVivante();
+                }
+                else {
+                    nouvelles_cellules[i][j] = new CelluleMorte();
+                }
+            }
+        }
+    }
+
+}
+
+
+void Grille::clearGrille() {
+    for (int i = 0; i < m_longueur; i++) {
+        for (int j = 0; j < m_largeur; j++) {
+            delete cellules[i][j];  // Supprimer chaque cellule allouée dynamiquement
         }
     }
 }

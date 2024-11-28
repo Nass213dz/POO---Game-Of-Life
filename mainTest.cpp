@@ -27,5 +27,7 @@ int main() {
 
     grid.affichageGrille(); // Affichage de la grille
 
+    grid.clearGrille(); // Supprimer toutes les cellules allouées dynamiquement
+
     return 0;
 }

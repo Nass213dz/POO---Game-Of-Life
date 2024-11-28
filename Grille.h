@@ -34,6 +34,10 @@ public:
 
     // Méthode pour initialiser la grille avec les états des cellules
     void initialisationGrille(vector<vector<int>>& etats_cellules);
+
+    void iteration();
+
+    void clearGrille();
 };
 
 #endif
