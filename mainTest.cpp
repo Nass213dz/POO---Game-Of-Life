@@ -22,8 +22,8 @@ int main() {
     grid.initialisationGrille(grille); // Initialisation avec les données du fichier
 
     // Affichage de la longueur et largeur
-    cout << "Longueur de la grille : " << grid.getLongueur() << endl;
-    cout << "Largeur de la grille : " << grid.getLargeur() << endl;
+    //cout << "Longueur : " << grid.getLongueur() << endl;
+    //cout << "Largeur : " << grid.getLargeur() << endl;
 
     grid.affichageGrille(); // Affichage de la grille
 

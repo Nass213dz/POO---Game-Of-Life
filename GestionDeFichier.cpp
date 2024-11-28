@@ -5,12 +5,14 @@
 #include "GestionDeFichier.h"
 
 using namespace std;
+namespace fs = filesystem;
 
 vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
     string premiereLigne;
     string ligne;
     string largeurS;
     string longueurS;
+    string itérati
     int largeurI;
     int longueurI;
     int cellule;
@@ -70,6 +72,7 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
 
 
 void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& contenu) {
+    
     ofstream fichier(nomFichier);
     if (!fichier.is_open()) {
         throw runtime_error("Impossible d'ouvrir le fichier de destination.");
