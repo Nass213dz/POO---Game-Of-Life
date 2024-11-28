@@ -71,11 +71,13 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
 }
 
 
-void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& contenu) {
+void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& contenu, int nb) {
     string iteration_folder;
     if (!fs::exists(iteration_folder)){
         fs::create_directory(iteration_folder);
     }
+
+    for (int i(0); i < nb; i++)
     ofstream fichier(nomFichier);
     if (!fichier.is_open()) {
         throw runtime_error("Impossible d'ouvrir le fichier de destination.");
