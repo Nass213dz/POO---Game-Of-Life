@@ -56,12 +56,12 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
     lireMessage.ignore();
 
     if (tableau.size() != largeurI){
-        throw runtime_error("Nombre de lignes de la matrice non conforme au parametre donnees");
+        throw runtime_error("Nombre de lignes de la matrice non conforme aux parametres donnes");
     }
 
     for (int i = 0; i < tableau.size(); i++){
         if (tableau[i].size() != longueurI){
-            throw runtime_error("Nombre de colonnes de la matrice non conforme au parametre donnees");
+            throw runtime_error("Nombre de colonnes de la matrice non conforme aux parametres donnes");
         }   
     }
        
