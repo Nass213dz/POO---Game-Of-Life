@@ -100,13 +100,19 @@ void Grille::iteration(){
         }
     }
 
+    for (int i = 0; i < m_longueur; i++) {
+        for (int j = 0; j < m_largeur; j++) {
+            delete cellules[i][j];
+            cellules[i][j] = nouvelles_cellules[i][j];
+        }
+    }
 }
 
 
 void Grille::clearGrille() {
     for (int i = 0; i < m_longueur; i++) {
         for (int j = 0; j < m_largeur; j++) {
-            delete cellules[i][j];  // Supprimer chaque cellule allouée dynamiquement
+            delete cellules[i][j];
         }
     }
 }
