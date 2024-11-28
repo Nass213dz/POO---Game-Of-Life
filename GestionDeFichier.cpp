@@ -6,7 +6,7 @@
 #include "GestionDeFichier.h"
 
 using namespace std;
-using namespace filesystem;
+namespace fs = filesystem;
 
 vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
     string premiereLigne;
@@ -73,8 +73,8 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
 
 void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& contenu) {
     string iteration_folder;
-    if (!filesystem::exist(iteration_folder)){
-        filesystem::create_directory(iteration_folder);
+    if (!fs::exists(iteration_folder)){
+        fs::create_directory(iteration_folder);
     }
     ofstream fichier(nomFichier);
     if (!fichier.is_open()) {
