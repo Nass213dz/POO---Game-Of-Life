@@ -75,31 +75,44 @@ void Grille::initialisationGrille(vector<vector<int>>& etats_cellules) {
     }
 }
 
-void Grille::iteration(){
+void Grille::iteration() {
+    //création d'un vecteur pour stocker l'itération suivante
     vector<vector<Cellule*>> nouvelles_cellules(m_longueur, vector<Cellule*>(m_largeur, nullptr));
-    for (int i = 0; i < m_longueur; i++){
-        for (int j = 0; j < m_longueur; j++){
+    bool changement_detecte = false; // Indicateur de changement
+
+    for (int i = 0; i < m_longueur; i++) {
+        for (int j = 0; j < m_largeur; j++) {
             int voisins_vivants = getNBRVoisinsVivants(i, j);
 
-            if (getVieCellule(i,j)){
-                if (voisins_vivants == 2 || voisins_vivants == 3){
+            if (getVieCellule(i, j)) { // La cellule est vivante
+                if (voisins_vivants == 2 || voisins_vivants == 3) {
                     nouvelles_cellules[i][j] = new CelluleVivante();
+                } else {
+                    nouvelles_cellules[i][j] = new CelluleMorte();
                 }
-                else {
+            } else { // La cellule est morte
+                if (voisins_vivants == 3) {
+                    nouvelles_cellules[i][j] = new CelluleVivante();
+                } else {
                     nouvelles_cellules[i][j] = new CelluleMorte();
                 }
             }
-            else {
-                if (voisins_vivants == 3){
-                    nouvelles_cellules[i][j] = new CelluleVivante();
-                }
-                else {
-                    nouvelles_cellules[i][j] = new CelluleMorte();
-                }
+
+            // Vérifier s'il y a une différence avec l'état actuel
+            if ((getVieCellule(i, j) && dynamic_cast<CelluleMorte*>(nouvelles_cellules[i][j])) ||
+                (!getVieCellule(i, j) && dynamic_cast<CelluleVivante*>(nouvelles_cellules[i][j]))) {
+                changement_detecte = true;
             }
         }
     }
 
+    // Si aucun changement n'a été détecté, arrêter le programme
+    if (!changement_detecte) {
+        std::cout << "Aucun changement détecté. Fin de l'évolution." << std::endl;
+        return;
+    }
+
+    // Mettre à jour la grille actuelle et libérer la mémoire des anciennes cellules
     for (int i = 0; i < m_longueur; i++) {
         for (int j = 0; j < m_largeur; j++) {
             delete cellules[i][j];
@@ -107,6 +120,7 @@ void Grille::iteration(){
         }
     }
 }
+
 
 
 void Grille::clearGrille() {

@@ -6,7 +6,7 @@
 class GestionDeFichier{
     public:
         static std::vector<std::vector<int>> lireFichier(const std::string& nomFichier);
-        void ecrireFichier(const std::string& nomFichier, const std::string& grille);
+        static void ecrireFichier(const std::string& nomFichier, const std::vector<std::vector<int>>& grille);
 };
 
 

@@ -80,7 +80,7 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
 }
 
 
-void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& grille) {
+void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<std::vector<int>>& grille) {
     string iteration_folder;
     if (!fs::exists(iteration_folder)){
         fs::create_directory(iteration_folder);
@@ -88,6 +88,10 @@ void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& gri
      
     string cheminFichier = iteration_folder + "/" + nomFichier;
     ofstream fichier(cheminFichier);
-    fichier << grille;
+    for (int i = 0; i < grille.size(); i++){
+        for (int j = 0; j < grille[i].size(); j++){
+            fichier << grille[i][j];
+        }
+    }
     fichier.close();
 }
