@@ -7,10 +7,11 @@
 using namespace std;
 
 int main() {
+    vector<vector<Cellule*>> grille_cell;
     vector<vector<int>> grille;
     string nomFichier;
     int nbIterations;
-    string Iteration;
+    string iteration = "Iteration_";
 
     cout << "Entrez le nom du fichier source : ";
     cin >> nomFichier;
@@ -35,8 +36,9 @@ int main() {
 
     for (int i=0; i < nbIterations; i++){
         grid.initialisationGrille(grille); // Initialisation avec les données du fichier
-        GestionDeFichier::ecrireFichier(Iteration + to_string(i + 1), grille);
+        grille_cell = grid.iteration();
+        grille = GestionDeFichier::convertirGrille(grille_cell);
+        GestionDeFichier::ecrireFichier(iteration + to_string(i + 1), grille);
     }
-
     return 0;
 }

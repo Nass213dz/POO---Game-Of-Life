@@ -75,8 +75,8 @@ void Grille::initialisationGrille(vector<vector<int>>& etats_cellules) {
     }
 }
 
-void Grille::iteration() {
-    //création d'un vecteur pour stocker l'itération suivante
+vector<vector<Cellule*>> Grille::iteration() {
+    // Création d'un vecteur pour stocker l'itération suivante
     vector<vector<Cellule*>> nouvelles_cellules(m_longueur, vector<Cellule*>(m_largeur, nullptr));
     bool changement_detecte = false; // Indicateur de changement
 
@@ -106,10 +106,15 @@ void Grille::iteration() {
         }
     }
 
-    // Si aucun changement n'a été détecté, arrêter le programme
+    // Si aucun changement n'a été détecté, libérer la mémoire allouée pour les nouvelles cellules
     if (!changement_detecte) {
+        for (int i = 0; i < m_longueur; i++) {
+            for (int j = 0; j < m_largeur; j++) {
+                delete nouvelles_cellules[i][j];
+            }
+        }
         std::cout << "Aucun changement détecté. Fin de l'évolution." << std::endl;
-        return;
+        return cellules; // Retourne les cellules actuelles si pas de changement
     }
 
     // Mettre à jour la grille actuelle et libérer la mémoire des anciennes cellules
@@ -119,7 +124,10 @@ void Grille::iteration() {
             cellules[i][j] = nouvelles_cellules[i][j];
         }
     }
+
+    return cellules; // Retourne les nouvelles cellules
 }
+
 
 
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <filesystem>
 #include "GestionDeFichier.h"
+#include "Cellule.h"
 
 using namespace std;
 namespace fs = filesystem;
@@ -79,19 +80,38 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
     return tableau;
 }
 
+vector<vector<int>> GestionDeFichier::convertirGrille(const vector<vector<Cellule*>>& grille) {
+    vector<vector<int>> grilleInt;
 
-void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<std::vector<int>>& grille) {
-    string iteration_folder;
-    if (!fs::exists(iteration_folder)){
-        fs::create_directory(iteration_folder);
+    for (const auto& ligne : grille) {
+        vector<int> ligneInt;
+        for (const auto& cellule : ligne) {
+            if (cellule == nullptr) {
+                ligneInt.push_back(0);
+            } else {
+                ligneInt.push_back(cellule->getEtat()); 
+            }
+        }
+        grilleInt.push_back(ligneInt);
+    }
+
+    return grilleInt;
+}
+
+
+void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<vector<int>>& grille) {
+    string iterationFolder = "fichier_iteration";
+    if (!fs::exists(iterationFolder)){
+        fs::create_directory(iterationFolder);
     }
      
-    string cheminFichier = iteration_folder + "/" + nomFichier;
+    string cheminFichier = iterationFolder + "/" + nomFichier + ".txt";
     ofstream fichier(cheminFichier);
     for (int i = 0; i < grille.size(); i++){
         for (int j = 0; j < grille[i].size(); j++){
-            fichier << grille[i][j];
+            fichier << grille[i][j] << " ";
         }
+        fichier << "\n";
     }
     fichier.close();
 }
