@@ -1,12 +1,15 @@
 #include <ctime>
 #include <cstdlib>
-
+#include <SFML/Graphics.hpp>
 #include "Grille.h"
 #include "GestionDeFichier.h"
 
 using namespace std;
+using namespace sf;
 
 const int cellSize = 10;
+const int gridWidth = 80;
+const int gridHeight = 80;
 
 Grille::Grille(int largeur, int longueur) : m_largeur(largeur), m_longueur(longueur), cellules(longueur, vector<Cellule*>(largeur, nullptr)) {} // Constructeur paramétré
 
@@ -145,6 +148,18 @@ void Grille::clearGrille() {
     }
 }
 
-void Grille::graphique(){
 
+vector<vector<int>> grid(gridWidth, vector<int>(gridHeight));
+
+void Grille::graphique(sf::RenderWindow &window) {
+    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
+    for (int x = 0; x < m_longueur; ++x) {
+        for (int y = 0; y < m_largeur; ++y) {
+            if (cellules[x][y] && cellules[x][y]->getEtat()) { // Vérifie si la cellule existe et est vivante
+                cell.setPosition(x * cellSize, y * cellSize);
+                window.draw(cell);
+            }
+        }
+    }
+    window.display();
 }
