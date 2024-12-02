@@ -12,7 +12,7 @@ int main() {
     string nomFichier;
     int nbIterations;
     string iteration = "Iteration_";
-    string dossier = "Fichier_Iteration";
+    string dossier = "fichier_iteration";
 
     cout << "Entrez le nom du fichier source : ";
     cin >> nomFichier;
@@ -25,24 +25,26 @@ int main() {
     Grille grid(longueur, largeur);
 
     grid.clearGrille();
-    GestionDeFichier::supprimerFichiersTxt();
+    GestionDeFichier::supprimerFichiersTxt(dossier);
 
-    cout << "Entrez le nombres d'iterations que vous souhaitez:";
+    cout << "Entrez le nombres d'iterations que vous souhaitez effectuer : ";
     cin >> nbIterations;
 
     for (int i = 0; i < nbIterations; i++) {
-    grid.initialisationGrille(grille);
-    grille_cell = grid.iteration();
-    grille = GestionDeFichier::convertirGrille(grille_cell);
-    
-    static std::vector<std::vector<int>> grillePrecedente;
-    if (grillePrecedente.empty() || !GestionDeFichier::comparerGrilles(grillePrecedente, grille)) {
-        GestionDeFichier::ecrireFichier(iteration + to_string(i + 1), grille, dossier); 
-    } else {
-        std::cout << "Aucune difference entre l'iteration " << i + 1 << " et l'iteration precedente. Arret de l'ecriture des fichiers.\n";
-        break;
+        grid.initialisationGrille(grille);
+        grille_cell = grid.iteration();
+        grille = GestionDeFichier::convertirGrille(grille_cell);
+        
+        static std::vector<std::vector<int>> grillePrecedente;
+        if (grillePrecedente.empty() || !GestionDeFichier::comparerGrilles(grillePrecedente, grille)) {
+            GestionDeFichier::ecrireFichier(iteration + to_string(i + 1), grille, dossier);
+            grillePrecedente = grille; 
+        } 
+        else {
+            cout << "Aucune difference entre l'iteration " << i + 1 << " et l'iteration precedente. Arret de l'ecriture des fichiers.\n";
+            break;
+        }
     }
-}
 
     return 0;
 }

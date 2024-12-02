@@ -139,7 +139,7 @@ bool GestionDeFichier::comparerGrilles(const vector<vector<int>>& grille1, const
     return true;
 }
 
-void supprimerFichiersTxt(const string& dossier) {
+void GestionDeFichier::supprimerFichiersTxt(const std::string& dossier) {
     if (!fs::exists(dossier)) {
         cerr << "Le dossier " << dossier << " n'existe pas." << endl;
         return;
