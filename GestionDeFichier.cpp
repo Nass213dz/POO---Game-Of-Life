@@ -43,7 +43,7 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
         //continue de parcourir la première ligne
         if (premiereLigne[j] != ' '){
             //si il y a un autre élément
-            throw runtime_error("Declaration du tableau invalide (pensez à verifier qu'il n'y a pas de caractères en trop)"); // message d'erreur
+            throw runtime_error("Declaration du tableau invalide (pensez a verifier qu'il n'y a pas de caracteres en trop)"); // message d'erreur
         }
     }
     largeurI = stoi(largeurS); // conversion de la chaîne de caractère en entier
@@ -100,6 +100,7 @@ vector<vector<int>> GestionDeFichier::convertirGrille(const vector<vector<Cellul
 
 
 void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<vector<int>>& grille) {
+    vector<vector<int>> grillePrecedente;
     string iterationFolder = "fichier_iteration";
     if (!fs::exists(iterationFolder)){
         fs::create_directory(iterationFolder);
@@ -114,4 +115,26 @@ void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<vect
         fichier << "\n";
     }
     fichier.close();
+
+    grillePrecedente = grille;
+}
+
+bool GestionDeFichier::comparerGrilles(const std::vector<std::vector<int>>& grille1, const std::vector<std::vector<int>>& grille2) {
+    if (grille1.size() != grille2.size()) {
+        return false;
+    }
+
+    for (int i = 0; i < grille1.size(); i++) {
+        if (grille1[i].size() != grille2[i].size()) {
+            return false;
+        }
+
+        for (int j = 0; j < grille1[i].size(); j++) {
+            if (grille1[i][j] != grille2[i][j]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }

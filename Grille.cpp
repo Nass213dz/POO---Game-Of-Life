@@ -1,7 +1,12 @@
+#include <ctime>
+#include <cstdlib>
+
 #include "Grille.h"
 #include "GestionDeFichier.h"
 
 using namespace std;
+
+const int cellSize = 10;
 
 Grille::Grille(int largeur, int longueur) : m_largeur(largeur), m_longueur(longueur), cellules(longueur, vector<Cellule*>(largeur, nullptr)) {} // Constructeur paramétré
 
@@ -75,6 +80,7 @@ void Grille::initialisationGrille(vector<vector<int>>& etats_cellules) {
     }
 }
 
+
 vector<vector<Cellule*>> Grille::iteration() {
     // Création d'un vecteur pour stocker l'itération suivante
     vector<vector<Cellule*>> nouvelles_cellules(m_longueur, vector<Cellule*>(m_largeur, nullptr));
@@ -113,7 +119,7 @@ vector<vector<Cellule*>> Grille::iteration() {
                 delete nouvelles_cellules[i][j];
             }
         }
-        std::cout << "Aucun changement détecté. Fin de l'évolution." << std::endl;
+        cout << "Aucun changement detecte. Fin de l'evolution." << endl;
         return cellules; // Retourne les cellules actuelles si pas de changement
     }
 
@@ -137,4 +143,8 @@ void Grille::clearGrille() {
             delete cellules[i][j];
         }
     }
+}
+
+void Grille::graphique(){
+
 }

@@ -38,6 +38,8 @@ public:
     vector<vector<Cellule*>> iteration();
 
     void clearGrille();
+
+    void graphique();
 };
 
 #endif

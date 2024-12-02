@@ -34,11 +34,23 @@ int main() {
     cout << "Entrez le nombres d'iterations que vous souhaitez:";
     cin >> nbIterations;
 
-    for (int i=0; i < nbIterations; i++){
-        grid.initialisationGrille(grille); // Initialisation avec les données du fichier
-        grille_cell = grid.iteration();
-        grille = GestionDeFichier::convertirGrille(grille_cell);
-        GestionDeFichier::ecrireFichier(iteration + to_string(i + 1), grille);
+    for (int i = 0; i < nbIterations; i++) {
+    grid.initialisationGrille(grille); // Initialisation avec les données du fichier
+    grille_cell = grid.iteration(); // Effectuer l'itération
+    grille = GestionDeFichier::convertirGrille(grille_cell); // Convertir la grille en format adéquat
+    
+    // Comparer avec la grille précédente et écrire le fichier si nécessaire
+    static std::vector<std::vector<int>> grillePrecedente;
+    if (grillePrecedente.empty() || !GestionDeFichier::comparerGrilles(grillePrecedente, grille)) {
+        // Si c'est la première itération ou si les grilles sont différentes
+        GestionDeFichier::ecrireFichier(iteration + to_string(i + 1), grille); // Écrire le fichier
+        grillePrecedente = grille; // Mettre à jour la grille précédente
+    } else {
+        // Si les grilles sont identiques, arrêter la boucle
+        std::cout << "Aucune difference entre l'iteration " << i + 1 << " et l'iteration precedente. Arret de l'ecriture des fichiers.\n";
+        break; // Arrêter la boucle si aucune différence
     }
+}
+
     return 0;
 }
