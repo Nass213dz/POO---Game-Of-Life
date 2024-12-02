@@ -99,7 +99,7 @@ vector<vector<int>> GestionDeFichier::convertirGrille(const vector<vector<Cellul
 }
 
 
-void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<vector<int>>& grille) {
+void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<vector<int>>& grille, const string& dossier) {
     vector<vector<int>> grillePrecedente;
     string iterationFolder = "fichier_iteration";
     if (!fs::exists(iterationFolder)){
@@ -119,7 +119,7 @@ void GestionDeFichier::ecrireFichier(const string& nomFichier, const vector<vect
     grillePrecedente = grille;
 }
 
-bool GestionDeFichier::comparerGrilles(const std::vector<std::vector<int>>& grille1, const std::vector<std::vector<int>>& grille2) {
+bool GestionDeFichier::comparerGrilles(const vector<vector<int>>& grille1, const vector<vector<int>>& grille2) {
     if (grille1.size() != grille2.size()) {
         return false;
     }
@@ -137,4 +137,23 @@ bool GestionDeFichier::comparerGrilles(const std::vector<std::vector<int>>& gril
     }
 
     return true;
+}
+
+void supprimerFichiersTxt(const string& dossier) {
+    if (!fs::exists(dossier)) {
+        cerr << "Le dossier " << dossier << " n'existe pas." << endl;
+        return;
+    }
+
+    for (const auto& entry : fs::directory_iterator(dossier)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+            try {
+                fs::remove(entry.path());
+                cout << "Fichier supprime : " << entry.path().string() << endl;
+            } catch (const exception& e) {
+                cerr << "Erreur lors de la suppression de " << entry.path().string()
+                          << ": " << e.what() << endl;
+            }
+        }
+    }
 }
