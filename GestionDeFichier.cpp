@@ -17,36 +17,41 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
     int longueurI;
     int cellule;
 
-    ifstream lireMessage(nomFichier);
+    ifstream lireMessage(nomFichier); // Lecture du fichier 
     if (!lireMessage.is_open()) {
-        throw runtime_error("Impossible d'ouvrir le fichier source.");
+        //si le fichier est inaccessible ou inexistant
+        throw runtime_error("Impossible d'ouvrir le fichier source."); //message d'erreur personnalisé
     }
 
-    getline(lireMessage, premiereLigne);
-    int j(0);
+    getline(lireMessage, premiereLigne); // lecture d'une ligne
+    int j=0;
 
     //On récupère les paramètres du tableau
     while (premiereLigne[j] != ' '){
-        largeurS += premiereLigne[j];
+        //lecture de la première ligne
+        largeurS += premiereLigne[j]; //initialisation de la largeur en fonction du paramètre lu
         j++;
     }
-    j++;
+    j++; //incrémentation de j afin d'éviter l'espace
     while (premiereLigne[j] != ' '){
-        longueurS += premiereLigne[j];
+        // lecture du deuxième élément de la première ligne
+        longueurS += premiereLigne[j]; // initialisation de la longueur en fonction du paramètre lu
         j++;
     }
     for (j; j < premiereLigne.size(); j++){
+        //continue de parcourir la première ligne
         if (premiereLigne[j] != ' '){
-            throw runtime_error("Declaration du tableau invalide.");
+            //si il y a un autre élément
+            throw runtime_error("Declaration du tableau invalide."); // message d'erreur
         }
     }
-    largeurI = stoi(largeurS); // Convertit la chaîne en entier
+    largeurI = stoi(largeurS); // conversion de la chaîne de caractère en entier
     longueurI = stoi(longueurS);
 
-    vector<vector<int>> tableau;
+    vector<vector<int>> tableau; //vecteur d'entiers appelé tableau
     int x(0);
 
-    //Remplissage du tableau
+    //remplissage du tableau
     while(getline(lireMessage, ligne)){
         tableau.push_back(vector<int>()); // Ajoute une nouvelle ligne vide
         for (int i(0); i<ligne.size(); i += 2){
@@ -71,14 +76,16 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
 }
 
 
-void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& contenu, int nb) {
+void GestionDeFichier::ecrireFichier(const string& nomFichier, const string& grille, int nb) {
     string iteration_folder;
     if (!fs::exists(iteration_folder)){
         fs::create_directory(iteration_folder);
     }
-
-    for (int i(0); i < nb; i++)
-    ofstream fichier(nomFichier);
+ 
+    for (int i(0); i < nb; i++){
+        ofstream fichier(nomFichier + (i+1));
+    }
+    
     if (!fichier.is_open()) {
         throw runtime_error("Impossible d'ouvrir le fichier de destination.");
     }
