@@ -157,6 +157,3 @@ void GestionDeFichier::supprimerFichiersTxt(const std::string& dossier) {
         }
     }
 }
-
-
-
