@@ -14,7 +14,7 @@ const int cellSize = 10;    // Taille d'une cellule en pixels
 int main() {
     int mode;
 
-    cout << "Quel mode souhaitez-vous exécuter ?\n1) Mode console\n2) Mode graphique" << endl;
+    cout << "Quel mode souhaitez-vous exécuter ?\n{1} Mode console\n{2} Mode graphique" << endl;
     cin >> mode;
 
     if (mode == 1) {
