@@ -115,7 +115,7 @@ int main() {
                             int y = (gridHeight - glider.size()) / 2;
 
                             grid.ajouterMotif(glider, x, y);
-                            cout<<"Glider ajouté"<<endl;
+                            cout << "Glider ajouté" << endl;
                         } catch (const std::exception& e) {
                             cerr << "Erreur : " << e.what() << endl;
                         }
@@ -130,7 +130,39 @@ int main() {
                             int y = (gridHeight - blinker.size()) / 2;
 
                             grid.ajouterMotif(blinker, x, y);
-                            cout<<"Blinker ajouté"<<endl;
+                            cout << "Blinker ajouté" << endl;
+                        } catch (const std::exception& e) {
+                            cerr << "Erreur : " << e.what() << endl;
+                        }
+                    }
+                } else if (event.type == Event::MouseButtonPressed) {
+                    if (event.mouseButton.button == Mouse::Left) {
+                        // Clic gauche : Ajouter le glider à la position de la souris
+                        Vector2i mousePosition = Mouse::getPosition(window); // Position de la souris en pixels
+                        int x = mousePosition.x / cellSize;  // Conversion en coordonnées de grille
+                        int y = mousePosition.y / cellSize;
+
+                        try {
+                            vector<vector<int>> glider = GestionDeFichier::lireFichier("glider.txt");
+
+                            // Ajouter le glider à la position de la souris
+                            grid.ajouterMotif(glider, x, y);
+                            cout << "Glider ajouté à (" << x << ", " << y << ")" << endl;
+                        } catch (const std::exception& e) {
+                            cerr << "Erreur : " << e.what() << endl;
+                        }
+                    } else if (event.mouseButton.button == Mouse::Right) {
+                        // Clic droit : Ajouter le blinker à la position de la souris
+                        Vector2i mousePosition = Mouse::getPosition(window); // Position de la souris en pixels
+                        int x = mousePosition.x / cellSize;  // Conversion en coordonnées de grille
+                        int y = mousePosition.y / cellSize;
+
+                        try {
+                            vector<vector<int>> blinker = GestionDeFichier::lireFichier("blinker.txt");
+
+                            // Ajouter le blinker à la position de la souris
+                            grid.ajouterMotif(blinker, x, y);
+                            cout << "Blinker ajouté à (" << x << ", " << y << ")" << endl;
                         } catch (const std::exception& e) {
                             cerr << "Erreur : " << e.what() << endl;
                         }

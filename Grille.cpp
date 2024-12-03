@@ -40,9 +40,7 @@ bool Grille::getVieCellule(int i, int j) const {
 
 void Grille::setVieCellule(int x, int y, bool vivante) {
     if (x >= 0 && x < m_longueur && y >= 0 && y < m_largeur) {
-        if (cellules[x][y]) {
             cellules[x][y]->changerEtat(vivante); // Appelle changerEtat de la cellule
-        }
     }
 }
 
@@ -159,34 +157,56 @@ void Grille::clearGrille() {
 
 vector<vector<int>> grid(gridWidth, vector<int>(gridHeight));
 
-void Grille::graphique(sf::RenderWindow &window) {
-    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
-    for (int x = 0; x < m_longueur; ++x) {
-        for (int y = 0; y < m_largeur; ++y) {
-            if (cellules[x][y] && cellules[x][y]->getEtat()) { // Vérifie si la cellule existe et est vivante
-                cell.setPosition(x * cellSize, y * cellSize);
-                window.draw(cell);
+void Grille::graphique(RenderWindow& window) {
+    for (int i = 0; i < cellules.size(); ++i) {
+        for (int j = 0; j < cellules[i].size(); ++j) {
+            // Dessiner la cellule
+            RectangleShape cell(Vector2f(cellSize, cellSize));
+            cell.setPosition(j * cellSize, i * cellSize);  // Calculer la position pour chaque cellule
+
+            if (dynamic_cast<CelluleVivante*>(cellules[i][j])) {
+                cell.setFillColor(Color::Green);  // Cellule vivante en vert
+            } else {
+                cell.setFillColor(Color::Black);  // Cellule morte en noir
             }
+
+            window.draw(cell);
         }
     }
-    window.display();
 }
+
+
 
 
 void Grille::ajouterMotif(const vector<vector<int>>& motif, int x, int y) {
-    for (int i = 0; i < motif.size(); i++) {
-        for (int j = 0; j < motif[i].size(); j++) {
-            // Check if the position is within bounds of the grid
-            if (x + j >= 0 && x + j < m_largeur && y + i >= 0 && y + i < m_longueur) {
-                // Update the cell state based on the motif value
+    // Vérification que les indices sont dans les limites de la grille
+    for (int i = 0; i < motif.size(); ++i) {
+        for (int j = 0; j < motif[i].size(); ++j) {
+            int newX = x + i;
+            int newY = y + j;
+
+            // Vérifier si la position est dans les limites de la grille
+            if (newX >= 0 && newX < cellules.size() && newY >= 0 && newY < cellules[0].size()) {
+                // Si le motif est vivant (1), créez une cellule vivante, sinon une cellule morte
                 if (motif[i][j] == 1) {
-                    cellules[y + i][x + j] = new CelluleVivante();
+                    // Libération de la cellule existante si nécessaire (évitons les fuites mémoire)
+                    delete cellules[newX][newY];
+                    cellules[newX][newY] = new CelluleVivante();
                 } else {
-                    cellules[y + i][x + j] = new CelluleMorte();
+                    delete cellules[newX][newY];  // Libération de la cellule existante
+                    cellules[newX][newY] = new CelluleMorte();
                 }
+            } else {
+                // Affichage d'un message d'avertissement si le motif dépasse les limites de la grille
+                cout << "Attention : le motif dépasse les limites de la grille à la position ("
+                     << newX << ", " << newY << "). Motif non ajouté à cette position.\n";
             }
         }
     }
 }
+
+
+
+
 
 
