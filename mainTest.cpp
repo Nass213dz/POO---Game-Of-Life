@@ -103,6 +103,23 @@ int main() {
                         delay += 0.1f; // Augmentation du délai
                         cout << "Délai augmenté : " << delay << "s" << endl;
                     }
+                    else if (event.type == Event::KeyPressed) {
+                        if (event.key.code == Keyboard::G) {
+                            try {
+                                vector<vector<int>> glider = GestionDeFichier::lireMotifDepuisFichier("glider.txt");
+                                grid.ajouterMotif(glider, 10, 10);
+                            } catch (const std::exception& e) {
+                                cerr << "Erreur : " << e.what() << endl;
+                            }
+                        } else if (event.key.code == Keyboard::B) {
+                            try {
+                                vector<vector<int>> blinker = GestionDeFichier::lireMotifDepuisFichier("blinker.txt");
+                                grid.ajouterMotif(blinker, 20, 20);
+                            } catch (const std::exception& e) {
+                                cerr << "Erreur : " << e.what() << endl;
+                            }
+                        }
+                    }
                 }
             }
 

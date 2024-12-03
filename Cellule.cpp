@@ -4,13 +4,23 @@
 CelluleVivante::CelluleVivante() : m_etat_vivant(1){}
 CelluleMorte::CelluleMorte() : m_etat_mort(0){}
 
-void CelluleVivante::changerEtat(bool m_etat){
-    m_etat_vivant = m_etat;
+void CelluleVivante::changerEtat(bool m_etat) {
+    if (!m_etat) {
+        m_etat_vivant = false;
+    } else {
+        m_etat_vivant = true;
+    }
 }
 
-void CelluleMorte::changerEtat(bool m_etat){
-    m_etat_mort=m_etat;
+
+void CelluleMorte::changerEtat(bool m_etat) {
+    if (m_etat) {
+        m_etat_mort = false;
+    } else {
+        m_etat_mort = true;
+    }
 }
+
 
 bool CelluleVivante::getEtat(){
     return m_etat_vivant;

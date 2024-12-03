@@ -20,6 +20,7 @@ public:
     int getLongueur() const;
     int getLargeur() const;
     bool getVieCellule(int i, int j) const;
+    void setVieCellule(int x, int y, bool vivante);
     int getNBRVoisinsVivants(int i, int j);
     void affichageGrille();
     void initialisationGrille(vector<vector<int>>& etats_cellules);
@@ -27,6 +28,8 @@ public:
     void clearGrille();
 
     void graphique(sf::RenderWindow &window);
+
+    void ajouterMotif(const vector<vector<int>>& motif, int x, int y);
 };
 
 #endif

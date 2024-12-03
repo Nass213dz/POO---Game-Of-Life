@@ -38,6 +38,14 @@ bool Grille::getVieCellule(int i, int j) const {
     return cellules[i][j]->getEtat() ? true : false; // Si getEtat() retourne true, la méthode getVieCellule retourne true, sinon false
 }
 
+void Grille::setVieCellule(int x, int y, bool vivante) {
+    if (x >= 0 && x < m_longueur && y >= 0 && y < m_largeur) {
+        if (cellules[x][y]) {
+            cellules[x][y]->changerEtat(vivante); // Appelle changerEtat de la cellule
+        }
+    }
+}
+
 int Grille::getNBRVoisinsVivants(int i, int j) {
     // Permet d'avoir le nombre de voisins vivants autour de la cellule
     int compteur_voisin_vivant = 0; // Initialisation du compteur
@@ -47,8 +55,8 @@ int Grille::getNBRVoisinsVivants(int i, int j) {
             // Permet de parcourir la grille (le vecteur cellules)
             if (k == 0 && l == 0) continue; // Si le voisin parcouru est la cellule initiale, on continue sans rien faire
 
-            int voisin_i = i + k; // Coordonnée en i d'un voisin
-            int voisin_j = j + l; // Coordonnée en j d'un voisin
+            int voisin_i = (i + k + m_longueur) % m_longueur; // Coordonnée en i d'un voisin
+            int voisin_j = (j + l + m_largeur) % m_largeur; // Coordonnée en j d'un voisin
 
             if (voisin_i >= 0 && voisin_i < m_longueur && voisin_j >= 0 && voisin_j < m_largeur) { // Vérifie pour chaque voisin s'il est bien dans la grille
                 if (getVieCellule(voisin_i, voisin_j)) { // Si la cellule est vivante
@@ -162,4 +170,21 @@ void Grille::graphique(sf::RenderWindow &window) {
         }
     }
     window.display();
+}
+
+
+void Grille::ajouterMotif(const vector<vector<int>>& motif, int x, int y) {
+    int hauteur = motif.size();
+    int largeur = motif[0].size();
+
+    for (int i = 0; i < hauteur; ++i) {
+        for (int j = 0; j < largeur; ++j) {
+            int posX = (x + i) % m_longueur; // Gestion torique
+            int posY = (y + j) % m_largeur;  // Gestion torique
+
+            if (motif[i][j] == 1) {
+                setVieCellule(posX, posY, true);
+            }
+        }
+    }
 }

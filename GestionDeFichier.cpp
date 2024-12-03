@@ -157,3 +157,26 @@ void GestionDeFichier::supprimerFichiersTxt(const std::string& dossier) {
         }
     }
 }
+
+
+vector<vector<int>> GestionDeFichier::lireMotifDepuisFichier(const string& nomFichier) {
+    vector<vector<int>> motif;
+    ifstream fichier(nomFichier);
+    
+    if (!fichier.is_open()) {
+        throw runtime_error("Impossible d'ouvrir le fichier " + nomFichier);
+    }
+
+    int hauteur, largeur;
+    fichier >> hauteur >> largeur;
+
+    motif.resize(hauteur, vector<int>(largeur));
+    for (int i = 0; i < hauteur; ++i) {
+        for (int j = 0; j < largeur; ++j) {
+            fichier >> motif[i][j];
+        }
+    }
+
+    fichier.close();
+    return motif;
+}
