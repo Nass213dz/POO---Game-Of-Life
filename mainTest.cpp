@@ -9,8 +9,6 @@ using namespace std;
 using namespace sf;
 
 // Constantes pour la grille
-const int gridWidth = 20;   // Largeur de la grille
-const int gridHeight = 20;  // Hauteur de la grille
 const int cellSize = 10;    // Taille d'une cellule en pixels
 
 int main() {
@@ -65,9 +63,6 @@ int main() {
 
     } else if (mode == 2) {
         // Mode graphique
-        RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
-
-        // Fichier source prédéfini
         string nomFichier = "test.txt";
         vector<vector<int>> grille;
 
@@ -82,6 +77,13 @@ int main() {
         int longueur = grille[0].size();
 
         Grille grid(longueur, largeur);
+
+        const int gridWidth = 80; // Largeur de la grille
+        const int gridHeight = 80; // Hauteur de la grille
+
+        // Création de la fenêtre graphique
+        RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+
         grid.initialisationGrille(grille);
 
         // Variables pour gérer le délai entre les itérations
@@ -103,21 +105,32 @@ int main() {
                         delay += 0.1f; // Augmentation du délai
                         cout << "Délai augmenté : " << delay << "s" << endl;
                     }
-                    else if (event.type == Event::KeyPressed) {
-                        if (event.key.code == Keyboard::G) {
-                            try {
-                                vector<vector<int>> glider = GestionDeFichier::lireMotifDepuisFichier("glider.txt");
-                                grid.ajouterMotif(glider, 10, 10);
-                            } catch (const std::exception& e) {
-                                cerr << "Erreur : " << e.what() << endl;
-                            }
-                        } else if (event.key.code == Keyboard::B) {
-                            try {
-                                vector<vector<int>> blinker = GestionDeFichier::lireMotifDepuisFichier("blinker.txt");
-                                grid.ajouterMotif(blinker, 20, 20);
-                            } catch (const std::exception& e) {
-                                cerr << "Erreur : " << e.what() << endl;
-                            }
+                    // Ajouter le glider au centre de la grille
+                    else if (event.key.code == Keyboard::G) {
+                        try {
+                            vector<vector<int>> glider = GestionDeFichier::lireFichier("glider.txt");
+
+                            // Calcul des coordonnées pour centrer le motif
+                            int x = (gridWidth - glider[0].size()) / 2;
+                            int y = (gridHeight - glider.size()) / 2;
+
+                            grid.ajouterMotif(glider, x, y);
+                        } catch (const std::exception& e) {
+                            cerr << "Erreur : " << e.what() << endl;
+                        }
+                    }
+                    // Ajouter le blinker au centre de la grille
+                    else if (event.key.code == Keyboard::B) {
+                        try {
+                            vector<vector<int>> blinker = GestionDeFichier::lireFichier("blinker.txt");
+
+                            // Calcul des coordonnées pour centrer le motif
+                            int x = (gridWidth - blinker[0].size()) / 2;
+                            int y = (gridHeight - blinker.size()) / 2;
+
+                            grid.ajouterMotif(blinker, x, y);
+                        } catch (const std::exception& e) {
+                            cerr << "Erreur : " << e.what() << endl;
                         }
                     }
                 }
