@@ -115,6 +115,7 @@ int main() {
                             int y = (gridHeight - glider.size()) / 2;
 
                             grid.ajouterMotif(glider, x, y);
+                            cout<<"Glider ajouté"<<endl;
                         } catch (const std::exception& e) {
                             cerr << "Erreur : " << e.what() << endl;
                         }
@@ -129,6 +130,7 @@ int main() {
                             int y = (gridHeight - blinker.size()) / 2;
 
                             grid.ajouterMotif(blinker, x, y);
+                            cout<<"Blinker ajouté"<<endl;
                         } catch (const std::exception& e) {
                             cerr << "Erreur : " << e.what() << endl;
                         }

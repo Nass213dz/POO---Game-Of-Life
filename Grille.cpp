@@ -174,17 +174,19 @@ void Grille::graphique(sf::RenderWindow &window) {
 
 
 void Grille::ajouterMotif(const vector<vector<int>>& motif, int x, int y) {
-    int hauteur = motif.size();
-    int largeur = motif[0].size();
-
-    for (int i = 0; i < hauteur; ++i) {
-        for (int j = 0; j < largeur; ++j) {
-            int posX = (x + i) % m_longueur; // Gestion torique
-            int posY = (y + j) % m_largeur;  // Gestion torique
-
-            if (motif[i][j] == 1) {
-                setVieCellule(posX, posY, true);
+    for (int i = 0; i < motif.size(); i++) {
+        for (int j = 0; j < motif[i].size(); j++) {
+            // Check if the position is within bounds of the grid
+            if (x + j >= 0 && x + j < m_largeur && y + i >= 0 && y + i < m_longueur) {
+                // Update the cell state based on the motif value
+                if (motif[i][j] == 1) {
+                    cellules[y + i][x + j] = new CelluleVivante();
+                } else {
+                    cellules[y + i][x + j] = new CelluleMorte();
+                }
             }
         }
     }
 }
+
+
