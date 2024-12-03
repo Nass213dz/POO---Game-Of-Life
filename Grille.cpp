@@ -165,7 +165,7 @@ void Grille::graphique(RenderWindow& window) {
             cell.setPosition(j * cellSize, i * cellSize);  // Calculer la position pour chaque cellule
 
             if (dynamic_cast<CelluleVivante*>(cellules[i][j])) {
-                cell.setFillColor(Color::Green);  // Cellule vivante en vert
+                cell.setFillColor(Color::White);  // Cellule vivante en blanc
             } else {
                 cell.setFillColor(Color::Black);  // Cellule morte en noir
             }
@@ -186,15 +186,20 @@ void Grille::ajouterMotif(const vector<vector<int>>& motif, int x, int y) {
             int newY = y + j;
 
             // Vérifier si la position est dans les limites de la grille
-            if (newX >= 0 && newX < cellules.size() && newY >= 0 && newY < cellules[0].size()) {
-                // Si le motif est vivant (1), créez une cellule vivante, sinon une cellule morte
+            if (newX >= 0 && newX < m_longueur && newY >= 0 && newY < m_largeur) {
+                // Libération de la cellule existante si nécessaire (évite les fuites mémoire)
                 if (motif[i][j] == 1) {
-                    // Libération de la cellule existante si nécessaire (évitons les fuites mémoire)
-                    delete cellules[newX][newY];
-                    cellules[newX][newY] = new CelluleVivante();
+                    // Si la cellule doit devenir vivante, vérifier si elle n'est pas déjà vivante
+                    if (dynamic_cast<CelluleMorte*>(cellules[newX][newY])) {
+                        delete cellules[newX][newY];
+                        cellules[newX][newY] = new CelluleVivante();
+                    }
                 } else {
-                    delete cellules[newX][newY];  // Libération de la cellule existante
-                    cellules[newX][newY] = new CelluleMorte();
+                    // Si la cellule doit devenir morte, vérifier si elle n'est pas déjà morte
+                    if (dynamic_cast<CelluleVivante*>(cellules[newX][newY])) {
+                        delete cellules[newX][newY];
+                        cellules[newX][newY] = new CelluleMorte();
+                    }
                 }
             } else {
                 // Affichage d'un message d'avertissement si le motif dépasse les limites de la grille
@@ -204,6 +209,7 @@ void Grille::ajouterMotif(const vector<vector<int>>& motif, int x, int y) {
         }
     }
 }
+
 
 
 
