@@ -9,6 +9,7 @@ using namespace std;
 using namespace sf;
 
 const int cellSize = 10; //taille d'une cellule
+bool pause = false;
 
 int main() {
     int mode;
@@ -103,6 +104,9 @@ int main() {
                     } else if (event.key.code == Keyboard::Down) {
                         delay += 0.1f; //augmentation du délai (pas de maximum)
                         cout << "Délai augmenté : " << delay << "s" << endl;
+                    } else if(event.key.code == Keyboard::Space){
+                        pause = !pause;
+                        cout << (pause ? "Jeu en Pause" : "Jeu en Cours") << endl;
                     }
                 } else if (event.type == Event::MouseButtonPressed) {
                     if (event.mouseButton.button == Mouse::Middle) {
@@ -150,16 +154,16 @@ int main() {
                         } catch (const std::exception& e) {
                             cerr << "Erreur : " << e.what() << endl;
                         }
-                    }
+                    } 
                 }
             }
 
             //exécution de l'itération après que le délai soit écoulé
-            if (clock.getElapsedTime().asSeconds() >= delay) {
+            if (!pause && clock.getElapsedTime().asSeconds() >= delay) {
                 grid.iteration(); //MAJ de la grille
                 clock.restart();
             }
-
+            
             // affichage de l'interface graphique
             window.clear(Color::Black); //nettoyage de la fenêtre
             grid.graphique(window);    //dessin de la grille
