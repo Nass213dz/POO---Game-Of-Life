@@ -71,8 +71,8 @@ int Grille::getNBRVoisinsVivants(int i, int j) {
 void Grille::affichageGrille() {
     //affiche la grille
     cout << "Etat de la grille :" << endl;
-    for (int i = 0; i < m_longueur; i++) { // Parcours des lignes
-        for (int j = 0; j < m_largeur; j++) { // Parcours des colonnes
+    for (int i = 0; i < m_longueur; i++) { //parcours des lignes
+        for (int j = 0; j < m_largeur; j++) { // parcours des colonnes
             cout << (cellules[i][j]->getEtat() ? "1" : "0") << " "; //affiche "1" pour vivant et "0" pour mort
         }
         cout << endl; //saut de ligne
@@ -137,45 +137,47 @@ vector<vector<Cellule*>> Grille::iteration() {
         return cellules; // Retourne les cellules actuelles si pas de changement
     }
 
-    // Mettre à jour la grille actuelle et libérer la mémoire des anciennes cellules
+    //mise à jour de la grille et libération de la mémoire des anciennes cellules
     for (int i = 0; i < m_longueur; i++) {
         for (int j = 0; j < m_largeur; j++) {
-            delete cellules[i][j];
-            cellules[i][j] = nouvelles_cellules[i][j];
+            delete cellules[i][j]; //suppression des anciennes cellules
+            cellules[i][j] = nouvelles_cellules[i][j]; //MAJ des cellules une par une
         }
     }
 
-    return cellules; // Retourne les nouvelles cellules
+    return cellules; // return les nouvelles cellules
 }
 
 
 
 
 void Grille::clearGrille() {
+    //méthode qui libere la mémoire pour toute la grille
     for (int i = 0; i < m_longueur; i++) {
         for (int j = 0; j < m_largeur; j++) {
-            delete cellules[i][j];
+            delete cellules[i][j]; //libération de la mémoire
         }
     }
 }
 
 
-vector<vector<int>> grid(gridWidth, vector<int>(gridHeight));
+vector<vector<int>> grid(gridWidth, vector<int>(gridHeight)); //initialisation d'un vecteur grid
 
 void Grille::graphique(RenderWindow& window) {
+    //méthode qui prend en charge l'interface graphique
     for (int i = 0; i < cellules.size(); ++i) {
         for (int j = 0; j < cellules[i].size(); ++j) {
-            // Dessiner la cellule
+            //dessin de la cellule
             RectangleShape cell(Vector2f(cellSize, cellSize));
-            cell.setPosition(j * cellSize, i * cellSize);  // Calculer la position pour chaque cellule
+            cell.setPosition(j * cellSize, i * cellSize);  //calculer la position pour chaque cellule
 
             if (dynamic_cast<CelluleVivante*>(cellules[i][j])) {
-                cell.setFillColor(Color::White);  // Cellule vivante en blanc
+                cell.setFillColor(Color::White);  //cellule vivante en blanc
             } else {
-                cell.setFillColor(Color::Black);  // Cellule morte en noir
+                cell.setFillColor(Color::Black);  //cellule morte en noir
             }
 
-            window.draw(cell);
+            window.draw(cell); //dessin de l'interface en respectant les caractéristiques de 'cell'
         }
     }
 }
@@ -184,30 +186,31 @@ void Grille::graphique(RenderWindow& window) {
 
 
 void Grille::ajouterMotif(const vector<vector<int>>& motif, int x, int y) {
-    // Vérification que les indices sont dans les limites de la grille
+    //méthode permettant d'ajouter un motif prédéfini dans la grille
     for (int i = 0; i < motif.size(); ++i) {
+        //vérification que les indices sont dans les limites de la grille
         for (int j = 0; j < motif[i].size(); ++j) {
-            int newX = x + i;
+            int newX = x + i; //nouvelles coordonnées
             int newY = y + j;
 
-            // Vérifier si la position est dans les limites de la grille
             if (newX >= 0 && newX < m_longueur && newY >= 0 && newY < m_largeur) {
-                // Libération de la cellule existante si nécessaire (évite les fuites mémoire)
+                //vérifier si la position est dans les limites de la grille
                 if (motif[i][j] == 1) {
-                    // Si la cellule doit devenir vivante, vérifier si elle n'est pas déjà vivante
+                    //libération de la cellule existante si besoin
                     if (dynamic_cast<CelluleMorte*>(cellules[newX][newY])) {
-                        delete cellules[newX][newY];
-                        cellules[newX][newY] = new CelluleVivante();
+                        //si la cellule doit devenir vivante, vérifier si elle n'est pas déjà vivante
+                        delete cellules[newX][newY]; //suppression des anciennes cellules
+                        cellules[newX][newY] = new CelluleVivante(); //création des cellules correspo,ndant au motif
                     }
                 } else {
-                    // Si la cellule doit devenir morte, vérifier si elle n'est pas déjà morte
+                    //si la cellule doit devenir morte vérifier si elle n'est pas déjà morte
                     if (dynamic_cast<CelluleVivante*>(cellules[newX][newY])) {
                         delete cellules[newX][newY];
                         cellules[newX][newY] = new CelluleMorte();
                     }
                 }
             } else {
-                // Affichage d'un message d'avertissement si le motif dépasse les limites de la grille
+                //affichage d'un message d'avertissement si le motif dépasse les limites de la grille
                 cout << "Attention : le motif dépasse les limites de la grille à la position ("
                      << newX << ", " << newY << "). Motif non ajouté à cette position.\n";
             }
