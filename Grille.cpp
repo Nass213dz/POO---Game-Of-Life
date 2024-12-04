@@ -168,7 +168,7 @@ void Grille::graphique(RenderWindow& window) {
     for (int i = 0; i < cellules.size(); ++i) {
         for (int j = 0; j < cellules[i].size(); ++j) {
             //dessin de la cellule
-            RectangleShape cell(Vector2f(cellSize, cellSize));
+            RectangleShape cell(Vector2f(cellSize - 1.0f, cellSize - 1.0f));
             cell.setPosition(j * cellSize, i * cellSize);  //calculer la position pour chaque cellule
 
             if (dynamic_cast<CelluleVivante*>(cellules[i][j])) {
