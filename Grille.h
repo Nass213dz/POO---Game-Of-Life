@@ -9,9 +9,9 @@ using namespace std;
 
 class Grille {
 private:
-    int m_longueur;   // Longueur de la grille
-    int m_largeur;    // Largeur de la grille
-    vector<vector<Cellule*>> cellules; // Matrice de cellules (grille)
+    int m_longueur;   //longueur de la grille
+    int m_largeur;    //largeur de la grille
+    vector<vector<Cellule*>> cellules; //vecteur de cellules (grille)
     
 public:
     Grille(int longueur, int largeur);

@@ -10,13 +10,14 @@ using namespace std;
 namespace fs = filesystem;
 
 vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
-    string premiereLigne;
-    string ligne;
-    string largeurS;
-    string longueurS;
-    int largeurI;
-    int longueurI;
-    int cellule;
+    //méthode permettant de lire les informations du fichier source de la grille
+    string premiereLigne; //ligne contenant les paramètres de la grille
+    string ligne; //ligne contenant les états des cellules
+    string largeurS; //largeur encore sous forme de str (récupéré à l'aide de la lecture de la première ligne)
+    string longueurS; //longueur encore sous forme de str (récupéré à l'aide de la lecture de la première ligne)
+    int largeurI; //largeur en int
+    int longueurI; //longueur en int
+    int cellule; //chacunes des cellules dans la grille
 
     ifstream lireMessage(nomFichier); // Lecture du fichier 
     if (!lireMessage.is_open()) {
@@ -81,15 +82,19 @@ vector<vector<int>> GestionDeFichier::lireFichier(const string& nomFichier) {
 }
 
 vector<vector<int>> GestionDeFichier::convertirGrille(const vector<vector<Cellule*>>& grille) {
+    //convertit un vecteur de Cellule en vecteur d'entier
     vector<vector<int>> grilleInt;
 
     for (const auto& ligne : grille) {
+        //parcourt la grille ligne par ligne avec le type auto
         vector<int> ligneInt;
         for (const auto& cellule : ligne) {
+            //parcourt chaque ligne cellule par cellule
             if (cellule == nullptr) {
-                ligneInt.push_back(0);
+                //si la cellule est un pointeur nul
+                ligneInt.push_back(0); //changement vers un entier nul
             } else {
-                ligneInt.push_back(cellule->getEtat()); 
+                ligneInt.push_back(cellule->getEtat()); //sinon changement vers l'état de la cellule 
             }
         }
         grilleInt.push_back(ligneInt);

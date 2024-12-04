@@ -94,8 +94,8 @@ void Grille::initialisationGrille(vector<vector<int>>& etats_cellules) {
 
 
 vector<vector<Cellule*>> Grille::iteration() {
-    //création d'un vecteur pour stocker l'itération suivante
-    vector<vector<Cellule*>> nouvelles_cellules(m_longueur, vector<Cellule*>(m_largeur, nullptr));
+    //méthode permettant de gérer une nouvelle itération
+    vector<vector<Cellule*>> nouvelles_cellules(m_longueur, vector<Cellule*>(m_largeur, nullptr)); //création d'un vecteur pour stocker l'itération suivante
     bool changement_detecte = false; //false en cas de changement, true sinon
 
     for (int i = 0; i < m_longueur; i++) {
@@ -161,7 +161,7 @@ void Grille::clearGrille() {
 }
 
 
-vector<vector<int>> grid(gridWidth, vector<int>(gridHeight)); //initialisation d'un vecteur grid
+vector<vector<int>> grid(gridWidth, vector<int>(gridHeight)); //initialisation d'un vecteur d'entier grid
 
 void Grille::graphique(RenderWindow& window) {
     //méthode qui prend en charge l'interface graphique
@@ -217,10 +217,4 @@ void Grille::ajouterMotif(const vector<vector<int>>& motif, int x, int y) {
         }
     }
 }
-
-
-
-
-
-
 

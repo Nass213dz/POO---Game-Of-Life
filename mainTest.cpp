@@ -13,7 +13,7 @@ const int cellSize = 10; //taille d'une cellule
 int main() {
     int mode;
 
-    cout << "Quel mode souhaitez-vous exécuter ?\n{1} Mode console\n{2} Mode graphique" << endl;
+    cout << "Quel mode souhaitez-vous exécuter ?\n{1} Mode console\n{2} Mode graphique\n{3} Mode Test" << endl;
     cin >> mode;
 
     if (mode == 1) {
@@ -167,8 +167,47 @@ int main() {
         }
 
         return 0; //fin du programme
-    } else {
-        cerr << "Mode non valide. Veuillez choisir 1 ou 2." << endl;
+    } else if (mode == 3) {
+        // Mode test unitaire
+        string fichierDepart = "grille_depart.txt";  // fichier de la grille initiale
+        string fichierAttendu = "grille_arrivee.txt"; // fichier de la grille attendue
+        vector<vector<int>> grilleDepart;
+        vector<vector<int>> grilleAttendue;
+
+        try {
+            // Lire les fichiers
+            grilleDepart = GestionDeFichier::lireFichier(fichierDepart);
+            grilleAttendue = GestionDeFichier::lireFichier(fichierAttendu);
+        } catch (const std::exception& e) {
+            cerr << "Erreur lors de la lecture des fichiers : " << e.what() << endl;
+            return -1;
+        }
+
+        // Initialiser la grille à partir des dimensions du fichier de départ
+        int largeur = grilleDepart.size();
+        int longueur = grilleDepart[0].size();
+        Grille grid(longueur, largeur);
+
+        // Charger la grille de départ
+        grid.initialisationGrille(grilleDepart);
+
+        // Effectuer 5 itérations
+        vector<vector<Cellule*>> grille_cell;
+        for (int i = 0; i < 5; i++) {
+            grille_cell = grid.iteration(); // Effectuer une itération
+        }
+
+        // Convertir la grille finale en matrice d'entiers
+        vector<vector<int>> grilleResultat = GestionDeFichier::convertirGrille(grille_cell);
+
+        // Comparer la grille obtenue avec la grille attendue
+        if (!GestionDeFichier::comparerGrilles(grilleResultat, grilleAttendue)) {
+            cout << "Test unitaire réussi : La grille obtenue après 5 itérations correspond à la grille attendue." << endl;
+        } else {
+            cout << "Test unitaire échoué : La grille obtenue après 5 itérations ne correspond pas à la grille attendue." << endl;
+        }
+     } else {
+        cerr << "Mode non valide. Veuillez choisir 1, 2 ou 3." << endl;
         return -1;
     }
 }
