@@ -161,7 +161,7 @@ int main() {
                         } catch (const exception& e) {
                             cerr << "Erreur : " << e.what() << endl;
                         }
-                    }else if (event.mouseButton.button == Mouse::Left){
+                    }else if (event.mouseButton.button == Mouse::XButton1){
                         //touche latérale ajoute un canon
                         Vector2i mousePosition = Mouse::getPosition(window);
                         int y = mousePosition.x / cellSize;
