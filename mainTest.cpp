@@ -227,7 +227,7 @@ int main() {
         vector<vector<int>> grilleResultat = GestionDeFichier::convertirGrille(grille_cell);
 
         //comparaison de la grille obtenue avec la grille attendue
-        if (!GestionDeFichier::comparerGrilles(grilleResultat, grilleAttendue)) {
+        if (GestionDeFichier::comparerGrilles(grilleResultat, grilleAttendue)) {
             //si il n'y a pas de différence entre la grille résultante et la grille
             cout << "Test unitaire réussi : La grille obtenue après 5 itérations correspond à la grille attendue." << endl;
         } else {
